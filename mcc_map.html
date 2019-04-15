@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+
+<head>
+ <title>Manchester Community College - Room Directions</title>
+ <link rel="shortcut icon" href="https://www.mccnh.edu/templates/mcc2014/images/favicon.ico">
+ <meta charset="UTF-8/">
+ <meta name="viewport" content="width=device-width">
+</head>
+
+<style>
+	header {
+  	 	padding:20px;
+ 	 	text-align:center;
+	 	background-color:rgb(44, 62, 80);
+	 	color:rgb(255, 255, 255);
+ 	 	border-bottom: 8px solid green;
+ 	 	border-top: 5px solid green;"
+		}
+	body {
+  		background-color: rgb(248, 249, 249);
+		}
+	.center {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		width: 50%;
+		}
+
+	table, th, td {
+  		border: 1px solid black;
+		}
+</style>
+
+<body>
+
+<header>
+	<h1>Manchester Community College Room Directions</h1>
+</header>
+
+<br>
+
+<div align="center">
+	<form>
+		<b><font size = "5">Please enter a room number: </font> </b><br><br>
+		<input type="text" id="name" name="file_name" placeholder="Please, input the room number or CRN", size="45"><br><br>
+    		<button type="submit" id="CRN" onclick="changeImage(); return false;">CRN</button>
+    		<button type="submit" id="RoomNum" onclick="changeImage(); return false;">Room #</button>
+		<br><p><center><b>Room Numbers: <span id="txt_roomnuber">0</span></p> </b></center></p>
+
+		<img src= "BASE.png" class = "center" id="picture" alt="Image">
+	</form>
+</div>
+
+<script type="text/javascript">
+
+	function changeImage()
+	{
+		var textBox = document.getElementById("room").value;
+		document.getElementById("demo").innerHTML = textBox;
+		  	if(textBox != null)
+			{
+				 switch (textBox) 
+				{
+				case ('100'):
+					document.getElementById("picture").src = textBox + ".gif";
+				break;
+				case ('102'):
+					alert("102 case works!");
+					document.getElementById("picture").src = textBox + ".gif";
+				break;
+	
+				default:
+					alert("You did not input an existing room number! Please try again.");
+				break;
+				}
+			}
+	}
+</script>
+
+</body>
+
+</html>
