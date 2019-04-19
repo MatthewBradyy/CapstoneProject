@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+
+<head>
+	<title>Manchester Community College - Manchester, NH</title>
+	<link rel="shortcut icon" href="https://www.mccnh.edu/templates/mcc2014/images/favicon.ico">
+	<meta charset="UTF-8/">
+	<meta name="viewport" content="width=device-width">
+</head>
+
+<style>
+	 header{
+		 padding: 0px;
+		 text-align: center;
+		 background-color:rgb(44, 62, 80);
+		 color:rgb(255, 255, 255);
+		 border-bottom: 9px solid rgb(0, 204, 0);
+		 border-top: 5px solid rgb(0, 204, 0);
+	 }
+	 body {
+		 background-color: rgb(248, 249, 249);
+	 }
+	 .font {
+		 font-family: 'Patua One', sans-serif;
+	 }
+	 .center {
+		 display: block;
+		 margin-left: auto;
+		 margin-right: auto;
+		 width: 50%;
+	 }
+	 table, th, td {
+		 border: 1px solid grey;
+		 padding: 2px;
+	 }
+	 tr:nth-child(even) {background-color: #f2f2f2;}
+	 img.resize {
+		 max-width:15%;
+		 max=height: 15%;
+	 }
+	 .button{
+		 background-color: white;
+		 border: 2px solid #00cc00;
+	 }
+	 .button:hover{
+		 background-color: #00cc00;
+		 color: white;
+	 }
+	 .button:hover {
+  	 box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+	 }
+	 .button span {
+  	 cursor: pointer;
+  	 display: inline-block;
+  	 position: relative;
+  	 transition: 0.5s;
+	 }
+
+	 .button span:after {
+  	 content: '\00bb';
+  	 position: absolute;
+  	 opacity: 0;
+  	 top: 0;
+  	 right: -20px;
+  	 transition: 0.5s;
+	 }
+
+	 .button:hover span {
+  	 padding-right: 25px;
+	 }
+
+	 .button:hover span:after {
+  	 opacity: 1;
+  	 right: 0;
+	 }
+	 a {
+		 color: rgb(44, 62, 80);
+	 }
+	 a:hover {
+  	 color: rgb(0, 204, 0);
+	 }
+	 img {
+  	 max-width: 100%;
+  	 height: auto;
+	 }
+	 #picture {
+  	 border-radius: 5px;
+  	 cursor: pointer;
+  	 transition: 0.3s;
+	 }
+	 #picture:hover {opacity: 0.7;}
+	 .modal {
+  	 display: none;
+  	 position: fixed;
+  	 z-index: 1;
+  	 padding-top: 100px;
+  	 left: 0;
+  	 top: 0;
+  	 width: 100%;
+  	 height: 100%;
+  	 overflow: auto;
+  	 background-color: rgb(0,0,0);
+  	 background-color: rgba(0,0,0,0.9);
+	 }
+	.modal-content {
+		 margin: auto;
+		 display: block;
+		 width: 80%;
+		 max-width: 700px;
+	 }
+	 #caption {
+  	 margin: auto;
+  	 display: block;
+  	 width: 80%;
+  	 max-width: 700px;
+  	 text-align: center;
+  	 color: #ccc;
+  	 padding: 10px 0;
+  	 height: 150px;
+	 }
+	 .modal-content, #caption {
+  	 -webkit-animation-name: zoom;
+  	 -webkit-animation-duration: 0.6s;
+  	 animation-name: zoom;
+  	 animation-duration: 0.6s;
+	 }
+	 @-webkit-keyframes zoom {
+  	 from {-webkit-transform: scale(0)}
+  	 to {-webkit-transform: scale(1)}
+	 }
+
+	 @keyframes zoom {
+  	 from {transform: scale(0.1)}
+  	 to {transform: scale(1)}
+	  }
+	 .close {
+  	 position: absolute;
+  	 top: 15px;
+  	 right: 35px;
+  	 color: #f1f1f1;
+  	 font-size: 40px;
+  	 font-weight: bold;
+  	 transition: 0.3s;
+	 }
+	 .close:hover,
+	 .close:focus {
+  	 color: #bbb;
+  	 text-decoration: none;
+  	 cursor: pointer;
+	 }
+	 @media only screen and (max-width: 700px){
+  	 .modal-content {
+    	 width: 100%;
+   		}
+	 }
+</style>
+
+<body>
+
+<header>
+	<h1><img class="resize" src= "https://www.mccnh.edu/templates/mcc2014/images/manchester-community-college.png" id="mcc"></h1>
+</header>
+
+<br><br>
+
+<div align="center">
+  <form>
+		<strong class="font">Please enter a CRN or room number: </strong><br><br>
+		<input type="text" class="center" type="text" id="room" placeholder="Enter the CRN or Room Number...", size="45"><br><br>
+    	<button type="submit" class="button" id="RoomNum" onclick="changeImage(); return false;"><span>Room #</span></button>
+			&nbsp;
+		<button type="submit" class="button" id="CRN" onclick="changeImage(); return false;"><span>CRN</span></button><br><br><br>
+		<img src= "BASE.png" class = "center" id="picture" alt="Manchester Community College - Map Directions">
+	</form>
+</div>
+
+<div id="myModal" class="modal">
+	<span class="close">X</span>
+	<img class="modal-content" id="img01">
+	<div id="caption"></div>
+</div>
+
+<script type="text/javascript">
+var modal = document.getElementById("myModal");
+
+var pic = document.getElementById("picture");
+var modalImg = document.getElementById("img01");
+var captionText = document.getElementById("caption");
+pic.onclick = function(){
+	modal.style.display = "block";
+	modalImg.src = this.src;
+	captionText.innerHTML = this.alt;
+}
+
+var span = document.getElementsByClassName("close")[0];
+
+span.onclick = function() {
+	modal.style.display = "none";
+}
+
+function changeImage()
+{
+  var textBox = document.getElementById("room").value;
+
+  if(textBox != null)
+{
+    switch (textBox) {
+		case ('100'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('102'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('106'):
+		 	document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('108'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('110'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('115'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('116'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('117'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('120'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('122'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('123'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('126'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('127'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('129'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('131'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('133'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('135'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('137'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('139'):
+			document.getElementById("picture").src = "139-41.gif";
+		break;
+		case ('141'):
+			document.getElementById("picture").src = "139-41.gif";
+		break;
+		case ('244'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('246'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('248'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('253'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('263'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('265'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('267'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('300'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('302'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('304'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('306'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('308'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('310'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('312'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('314'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('317'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('318'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('319'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('323'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('325'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('327'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('264'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('268'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('272'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('274'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('276'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('277'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('279'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('281'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('283'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('285'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('289'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('291'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('293'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('295'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('297'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		case ('299'):
+			document.getElementById("picture").src = textBox + ".gif";
+		break;
+		default:
+			alert("You did not input an existing room number! Please try again.");
+		break;
+}
+}
+}
+</script>
+
+
+
+<br><br><br><br><p><center><b>Room Numbers: </b></center></p>
+
+
+<div>
+
+<center><table style ="width: 20%">
+
+	<tr>
+		<th><center><a href="100.gif">100</a></center></th>
+		<th><center><a href="102.gif">102</a></center></th>
+		<th><center><a href="106.gif">106</a></center></th>
+		<th><center><a href="108.gif">108</a></center></th>
+	</tr>
+	<tr>
+		<td><center><a href="110.gif">110</a></center></td>
+		<td><center><a href="115.gif">115</a></center></td>
+		<td><center><a href="116.gif">116</a></center></td>
+		<td><center><a href="117.gif">117</a></center></td>
+	</tr>
+	<tr>
+		<td><center><a href="120.gif">120</a></center></td>
+		<td><center><a href="122.gif">122</a></center></td>
+		<td><center><a href="123.gif">123</a></center></td>
+		<td><center><a href="126.gif">126</a></center></td>
+	</tr>
+	<tr>
+		<td><center><a href="127.gif">127</a></center></td>
+		<td><center><a href="129.gif">129</a></center></td>
+		<td><center><a href="131.gif">131</a></center></td>
+		<td><center><a href="133.gif">133</a></center></td>
+	</tr>
+	<tr>
+		<td><center><a href="135.gif">135</a></center></td>
+		<td><center><a href="137.gif">137</a></center></td>
+		<td><center><a href="139-41.gif">139-41</a></center> </td>
+		<td></td>
+	</tr>
+
+
+</table></center>
+
+</div>
+
+<br><br><br><br>
+
+</body>
+
+
+</html>
